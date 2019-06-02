@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
-from layers import ListModule
+from scr.layers import ListModule
 
 
 class GCN(torch.nn.Module):

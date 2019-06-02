@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from model.gat import GAT
-from utils import load_dataset, mkdir, scatter
+from scr.utils import load_dataset, mkdir, scatter
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -74,7 +74,9 @@ class GATTrainer(object):
         :return:
         """
         mkdir(self.args.result_path)
-        torch.save(self.model.state_dict(), self.args.result_path + 'gat_model.pkl')
+        torch.save(self.model.state_dict(), self.args.result_path + self.args.model + '_' + self.args.dataset_name + '_model.pkl')
+
+        print("模型已保存成功！")
 
     def save_result(self):
         """
@@ -91,6 +93,8 @@ class GATTrainer(object):
         result.to_csv(self.args.result_path + self.args.model + '_' + self.args.dataset_name + '_result.csv',
                       index=None)
 
+        print("测试集的节点预测结果保存成功！")
+
     def save_embedding(self):
         """
         保存嵌入结果
@@ -99,14 +103,19 @@ class GATTrainer(object):
         mkdir(self.args.result_path)
         embedding = self.model.hidden_representations[-2][self.data.test_mask].detach().cpu().numpy()
 
+        print("正在对测试集的嵌入结果进行降维可视化...")
+
         X = embedding
         Y = self.data.y[self.data.test_mask].detach().cpu().numpy()
         GATTrainer.embed_visualization(self, X=X, Y=Y)
+
         index = ["node_" + str(x) for x in range(1000)]
         columns = ["x_" + str(x) for x in range(len(embedding[0]))]
         embedding = pd.DataFrame(embedding, index=index, columns=columns)
         embedding.to_csv(self.args.result_path + self.args.model + '_' + self.args.dataset_name + '_embedding.csv',
                          index=None)
+
+        print("测试集的节点嵌入表示保存成功！")
 
     def embed_visualization(self, X, Y):
         """
