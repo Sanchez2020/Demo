@@ -8,7 +8,6 @@ class GAT(torch.nn.Module):
     """
     GAT模型实现
     """
-
     def __init__(self, args, dataset, data):
         super(GAT, self).__init__()
         self.args = args

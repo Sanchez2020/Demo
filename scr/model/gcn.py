@@ -8,7 +8,6 @@ class GCN(torch.nn.Module):
     """
     GCN模型实现
     """
-
     def __init__(self, args, dataset, data):
         super(GCN, self).__init__()
         self.args = args

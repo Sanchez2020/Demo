@@ -1,8 +1,7 @@
 import torch
 import torch.nn.functional as F
-from model.gat import GAT
+from scr.model.gat import GAT
 from scr.utils import load_dataset, mkdir, scatter
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
@@ -25,7 +24,6 @@ class GATTrainer(object):
     def load_to_device(self):
         """
         加载数据和模型到设备
-        :return:
         """
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = GAT(self.args, self.dataset, self.data).to(device)
@@ -34,7 +32,6 @@ class GATTrainer(object):
     def train(self):
         """
         训练函数
-        :return:
         """
         self.model.train()
         optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.learning_rate,
@@ -45,7 +42,6 @@ class GATTrainer(object):
     def test(self):
         """
         测试函数
-        :return:
         """
         self.model.eval()
         logits, accs = self.model(), []
@@ -58,8 +54,9 @@ class GATTrainer(object):
     def fit(self):
         """
         训练过程
-        :return:
+        :return: 准确率
         """
+        print("正在" + self.args.dataset_name + "引文数据集上训练GAT模型...")
         list_accs = []
         for epoch in range(1, self.args.epochs + 1):
             self.train()
@@ -71,7 +68,6 @@ class GATTrainer(object):
     def save_model(self):
         """
         保存模型
-        :return:
         """
         mkdir(self.args.result_path)
         torch.save(self.model.state_dict(), self.args.result_path + self.args.model + '_' + self.args.dataset_name + '_model.pkl')
