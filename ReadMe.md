@@ -112,7 +112,9 @@
 python src/main.py
 ```
 
-!["动态演示"](./Demo演示.gif"动态演示")
+<p align="center">
+  <img width="780" src="Demo演示.gif">
+</p>
 
 指定训练100轮
 
