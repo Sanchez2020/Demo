@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/home/hl/workspace/Demo")
 
 from src.parser import parameter_parser
@@ -28,7 +29,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     # 参数列表
     args = ["GAT"]
     main(args)
